@@ -1,7 +1,8 @@
 # yalexide
 An IDE for development of [yalex](https://github.com/AlexanderBrevig/yalexi) scripts.
 
-![yalexide screenshot](yalexide.png "yalexide")
+
+[![yalexide screenshot](yalexide.png "yalexide")](https://github.com/AlexanderBrevig/yalexide/raw/master/yalexide.png)
 
 Still very much a work in progress. Get in touch if you want to try it! I will help you get set up.
 
