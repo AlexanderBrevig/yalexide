@@ -54,7 +54,7 @@ configure_file (
         "${PROJECT_SOURCE_DIR}/yalexide_config.h"
 )
 
-include_directories(${PROJECT_SOURCE_DIR}/external_libs/include/)
+include_directories(${PROJECT_SOURCE_DIR}/yalex/yalex/src/ ${PROJECT_SOURCE_DIR}/external_libs/include/)
 
 if(LINUX)
     set(SFML_DEPENDENCIES GL)
@@ -101,6 +101,13 @@ set(GUI_SOURCE_FILES ${PROJECT_SOURCE_DIR}/external_libs/include/ImGuiColorTextE
 
 set(SOURCE_FILES ${PROJECT_SOURCE_DIR}/src/main.cpp )
 
+set(YALEX_SOURCE_FILES ${PROJECT_SOURCE_DIR}/yalex/yalex/src/yalex.c 
+    ${PROJECT_SOURCE_DIR}/yalex/yalex/src/yalex_interop.c 
+    ${PROJECT_SOURCE_DIR}/yalex/yalex/src/yalex_system.c
+    ${PROJECT_SOURCE_DIR}/yalex/yalex/src/yalex_parse.c
+    ${PROJECT_SOURCE_DIR}/yalex/yalex/src/yalex_tokens.c
+    ${PROJECT_SOURCE_DIR}/yalex/yalex/src/yalex_interpret.c )
+
 if(LINUX)
     if(DEBUG)
         set(PATH_LIBS ${PROJECT_SOURCE_DIR}/external_libs/libs/linux/debug)
@@ -114,7 +121,7 @@ if(LINUX)
     #set(MY_STATIC_LIBS ${PATH_LIBS}/libclip.a ${PATH_LIBS}/libfmt.a ${PATH_LIBS}/libgme.a ${PATH_SFML_LIB}/libsfml-network-s.a ${PATH_SFML_LIB}/libsfml-audio-s.a ${PATH_SFML_LIB}/libsfml-graphics-s.a ${PATH_SFML_LIB}/libsfml-window-s.a ${PATH_SFML_LIB}/libsfml-system-s.a)
     #target_link_libraries(emu-jukebox stdc++fs png ${MY_STATIC_LIBS} ${SFML_DEPENDENCIES} ${SFML_REST})
 
-    add_executable(emu-jukebox ${SOURCE_FILES} ${GUI_SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} ${GME_SOURCE_FILES} )
+    add_executable(emu-jukebox ${SOURCE_FILES} ${YALEX_SOURCE_FILES} ${GUI_SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} ${GME_SOURCE_FILES} )
     target_link_libraries(emu-jukebox stdc++fs png ${MY_STATIC_LIBS} ${SFML_DEPENDENCIES} ${SFML_REST})
 elseif(WIN32)
     if(MSVC)
@@ -126,7 +133,7 @@ elseif(WIN32)
             set(PATH_SFML_LIB ${PROJECT_SOURCE_DIR}/external_libs/libs/win/release/msvc/sfml)
             set(MY_STATIC_LIBS ${PATH_SFML_LIB}/sfml-network-s.lib ${PATH_SFML_LIB}/sfml-audio-s.lib ${PATH_SFML_LIB}/sfml-main.lib ${PATH_SFML_LIB}/sfml-graphics-s.lib ${PATH_SFML_LIB}/sfml-window-s.lib ${PATH_SFML_LIB}/sfml-system-s.lib)
         endif()
-        add_executable(yalexide ${SOURCE_FILES} ${GUI_SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} ${GME_SOURCE_FILES})
+        add_executable(yalexide ${SOURCE_FILES} ${YALEX_SOURCE_FILES} ${GUI_SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} ${GME_SOURCE_FILES})
         target_link_libraries(yalexide ${MY_STATIC_LIBS} ${SFML_DEPENDENCIES})
     else()
         #set(MY_STATIC_LIBS ${PATH_LIBS}/libfmt.a ${PATH_SFML_LIB}/libsfml-network.a ${PATH_SFML_LIB}/libsfml-audio.a ${PATH_SFML_LIB}/libsfml-graphics.a ${PATH_SFML_LIB}/libsfml-window.a ${PATH_SFML_LIB}/libsfml-system.a)
@@ -138,7 +145,7 @@ elseif(WIN32)
             set(MY_STATIC_LIBS ${PATH_SFML_LIB}/libsfml-network-s.a ${PATH_SFML_LIB}/libsfml-audio-s.a ${PATH_SFML_LIB}/libsfml-graphics-s.a ${PATH_SFML_LIB}/libsfml-window-s.a ${PATH_SFML_LIB}/libsfml-system-s.a)
         endif()
 
-        add_executable(yalexide ${SOURCE_FILES} ${GUI_SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} ${GME_SOURCE_FILES})
+        add_executable(yalexide ${SOURCE_FILES} ${YALEX_SOURCE_FILES} ${GUI_SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} ${GME_SOURCE_FILES})
         target_link_libraries(yalexide stdc++fs ${MY_STATIC_LIBS} ${SFML_DEPENDENCIES})
     endif()
 elseif(APPLE)
@@ -168,8 +175,8 @@ elseif(APPLE)
     set(MACOSX_BUNDLE_LONG_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
     set(MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
     set(MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
-    #add_executable(emu-jukebox ${SOURCE_FILES} ${GUI_SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} ${GME_SOURCE_FILES})
-    add_executable(yalexide MACOSX_BUNDLE ${SOURCE_FILES} ${GUI_SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} ${GME_SOURCE_FILES})
+    #add_executable(emu-jukebox ${SOURCE_FILES} ${YALEX_SOURCE_FILES} ${GUI_SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} ${GME_SOURCE_FILES})
+    add_executable(yalexide MACOSX_BUNDLE ${SOURCE_FILES} ${YALEX_SOURCE_FILES} ${GUI_SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} ${GME_SOURCE_FILES})
     #target_link_libraries(emu-jukebox stdc++fs ${MY_STATIC_LIBS} ${SFML_DEPENDENCIES})
     #stdc++
     if(SFML_BUILD_STATIC)
