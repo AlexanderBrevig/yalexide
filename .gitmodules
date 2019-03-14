@@ -1,0 +1,3 @@
+[submodule "external_libs/include/ImGuiColorTextEdit"]
+	path = external_libs/include/ImGuiColorTextEdit
+	url = https://github.com/BalazsJako/ImGuiColorTextEdit
