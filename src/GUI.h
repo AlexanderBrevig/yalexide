@@ -57,6 +57,7 @@ class Docking {
 public:
     inline static const std::string Docking::YALEX_CONSOLE_PANEL = "Console";
     inline static const std::string Docking::YALEX_INFO_PANEL = "Info";
+    inline static const std::string Docking::YALEX_SYSTEM_PANEL = "System";
     inline static const std::string Docking::YALEX_STACK_PANEL = "Stack";
     inline static const std::string Docking::YALEX_EDITOR = "YalexEditor";
 public:
@@ -101,11 +102,13 @@ public:
         ImGui::DockBuilderSetNodeSize(dockspace_id, viewport->Size);
 
         ImGuiID dock_main_id = dockspace_id; // This variable will track the document node, however we are not using it here as we aren't docking anything into it.
-        ImGuiID dock_id_left = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Left, 0.20f, nullptr, &dock_main_id);
+        ImGuiID system_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Left, 0.20f, nullptr, &dock_main_id);
+        ImGuiID info_id = ImGui::DockBuilderSplitNode(system_id, ImGuiDir_Down, 0.70f, nullptr, &system_id);
         ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.20f, nullptr, &dock_main_id);
         ImGuiID dock_id_bottom = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.20f, nullptr, &dock_main_id);
 
-        ImGui::DockBuilderDockWindow(YALEX_INFO_PANEL.c_str(), dock_id_left);
+        ImGui::DockBuilderDockWindow(YALEX_SYSTEM_PANEL.c_str(), system_id);
+        ImGui::DockBuilderDockWindow(YALEX_INFO_PANEL.c_str(), info_id);
         ImGui::DockBuilderDockWindow(YALEX_EDITOR.c_str(), dock_main_id);
         ImGui::DockBuilderDockWindow(YALEX_STACK_PANEL.c_str(), dock_id_right);
         ImGui::DockBuilderDockWindow(YALEX_CONSOLE_PANEL.c_str(), dock_id_bottom);

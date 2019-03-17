@@ -49,7 +49,7 @@ public:
                 //TODO: ask for save
                 //YalexConsolePanel::print("must save, file is dirty");
             }
-            filePath = "";
+            filePath = "";  
             this->SetText("");
         }
         ImGui::SameLine();

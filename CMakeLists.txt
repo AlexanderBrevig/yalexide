@@ -5,9 +5,10 @@ set(CMAKE_CXX_STANDARD 17)
 set(PROJECT_VERSION_MAJOR 0)
 set(PROJECT_VERSION_MINOR 6)
 set(PROJECT_VERSION_PATCH 0)
-set(CMAKE_CXX_FLAGS -DSFML_STATIC)
+set(CMAKE_CXX_FLAGS -DSFML_STATIC -DYALEX_DO_NOT_RESERVE_MEMORY)
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DSFML_STATIC -DYALEX_DEBUG -DYALEX_DO_NOT_RESERVE_MEMORY")
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DSFML_STATIC -DYALEX_DEBUG")
+add_compile_definitions(YALEX_DO_NOT_RESERVE_MEMORY)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(DEBUG 1)
@@ -54,7 +55,10 @@ configure_file (
         "${PROJECT_SOURCE_DIR}/yalexide_config.h"
 )
 
-include_directories(${PROJECT_SOURCE_DIR}/yalex/yalex/src/ ${PROJECT_SOURCE_DIR}/external_libs/include/)
+include_directories(
+    ${PROJECT_SOURCE_DIR}/src/
+    ${PROJECT_SOURCE_DIR}/yalex/yalex/src/ 
+    ${PROJECT_SOURCE_DIR}/external_libs/include/)
 
 if(LINUX)
     set(SFML_DEPENDENCIES GL)
@@ -99,9 +103,13 @@ set(IMGUI_SOURCE_FILES ${PROJECT_SOURCE_DIR}/external_libs/include/imgui/imgui.c
 
 set(GUI_SOURCE_FILES ${PROJECT_SOURCE_DIR}/external_libs/include/ImGuiColorTextEdit/TextEditor.cpp ${PROJECT_SOURCE_DIR}/external_libs/include/ImGuiColorTextEdit/TextEditor.h)
 
-set(SOURCE_FILES ${PROJECT_SOURCE_DIR}/src/main.cpp )
+set(SOURCE_FILES 
+    ${PROJECT_SOURCE_DIR}/src/main.cpp
+    ${PROJECT_SOURCE_DIR}/src/yalex_globals.cpp)
 
-set(YALEX_SOURCE_FILES ${PROJECT_SOURCE_DIR}/yalex/yalex/src/yalex.c 
+set(YALEX_SOURCE_FILES 
+    ${PROJECT_SOURCE_DIR}/src/yalex_globals.h
+    ${PROJECT_SOURCE_DIR}/yalex/yalex/src/yalex.c 
     ${PROJECT_SOURCE_DIR}/yalex/yalex/src/yalex_interop.c 
     ${PROJECT_SOURCE_DIR}/yalex/yalex/src/yalex_system.c
     ${PROJECT_SOURCE_DIR}/yalex/yalex/src/yalex_parse.c

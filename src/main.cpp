@@ -17,6 +17,7 @@
 
 #include "YalexEditor.h"
 #include "YalexStackPanel.h"
+#include "YalexSystemPanel.h"
 #include "YalexInfoPanel.h"
 #include "YalexConsolePanel.h"
 
@@ -26,6 +27,7 @@ Docking dock;
 YalexEditor editor(world);
 YalexStackPanel stack(world);
 YalexInfoPanel info(world);
+YalexSystemPanel configure(world);
 
 void replMessageCallback(const char* ptr) { 
     YalexConsolePanel::instance().yalex(ptr);
@@ -55,7 +57,10 @@ int main() {
         style.WindowRounding = 0.0f;
         style.Colors[ImGuiCol_WindowBg].w = 1.0f;
     }
-
+    world.lambdas = 0;
+    world.stack = 0;
+    world.registers = 0;
+    configure.configure();
     yalex_init(&world, replMessageCallback);
 
     std::vector<std::string> lines;
@@ -63,10 +68,11 @@ int main() {
     lines.push_back(":rec (R4R R0R 1 + < 'fibstep _ select)");
     lines.push_back(":start (R0R 1 - R0S pop rec pop pop pop pop pop pop R3R)");
     lines.push_back(":fib (R0S 0 R1S 1 R2S 0 R3S 1 R4S R0R 3 < 1 'start select)");
-    lines.push_back("0x1 false ||");
-    lines.push_back("dump");
-    lines.push_back("\"0x1 2 3 + +\" run");
+    lines.push_back("10 fib");
     editor.SetTextLines(lines);
+    for (auto line : lines) {
+        yalex_repl(&world, line.c_str());
+    }
 
     LOGINFO("Info");
     LOGWARN("Warning");
@@ -91,6 +97,7 @@ int main() {
         //ImGui::ShowTestWindow();
         dock.drawDock();
         editor.draw();
+        configure.draw();
         info.draw();
         stack.draw();
         YalexConsolePanel::instance().draw();
