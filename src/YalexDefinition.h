@@ -1,7 +1,7 @@
 #ifndef YALEXIDE_YALEX_DEF_H
 #define YALEXIDE_YALEX_DEF_H
 
-#include "ImGuiColorTextEdit\TextEditor.h"
+#include "ImGuiColorTextEdit/TextEditor.h"
 #include "yalex.h"
 
 class YalexDefinition {

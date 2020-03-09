@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.11)
 project(yalexide)
-
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(PROJECT_VERSION_MAJOR 0)
 set(PROJECT_VERSION_MINOR 6)
 set(PROJECT_VERSION_PATCH 0)
-set(CMAKE_CXX_FLAGS -DSFML_STATIC -DYALEX_DO_NOT_RESERVE_MEMORY)
+set(CMAKE_CXX_FLAGS "-DSFML_STATIC -DYALEX_DO_NOT_RESERVE_MEMORY")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DSFML_STATIC -DYALEX_DEBUG -DYALEX_DO_NOT_RESERVE_MEMORY")
 
 #add_compile_definitions(YALEX_DO_NOT_RESERVE_MEMORY)
@@ -57,11 +57,11 @@ configure_file (
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/src/
-    ${PROJECT_SOURCE_DIR}/yalex/yalex/src/ 
+    ${PROJECT_SOURCE_DIR}/yalex/src/ 
     ${PROJECT_SOURCE_DIR}/external_libs/include/)
 
 if(LINUX)
-    set(SFML_DEPENDENCIES GL)
+    set(SFML_DEPENDENCIES jpeg X11 Xrandr freetype xcb X11-xcb xcb-randr xcb-image GL openal pthread)
     set(SFML_REST udev) #libudev
 elseif(WIN32)
     if(MSVC)
@@ -74,8 +74,6 @@ elseif(WIN32)
         endif()
 
         set(SFML_DEPENDENCIES opengl32.lib winmm.lib gdi32.lib ${PATH_SFML_DEPEND}/freetype.lib ${PATH_SFML_DEPEND}/openal32.lib ${PATH_SFML_DEPEND}/flac.lib ${PATH_SFML_DEPEND}/vorbisenc.lib ${PATH_SFML_DEPEND}/vorbisfile.lib ${PATH_SFML_DEPEND}/vorbis.lib ${PATH_SFML_DEPEND}/ogg.lib ws2_32.lib )
-        #set(SFML_DEPENDENCIES  ${PATH_SFML_DEPEND}/freetype.lib ${PATH_SFML_DEPEND}/openal32.lib ${PATH_SFML_DEPEND}/flac.lib ${PATH_SFML_DEPEND}/vorbisenc.lib ${PATH_SFML_DEPEND}/vorbisfile.lib ${PATH_SFML_DEPEND}/vorbis.lib ${PATH_SFML_DEPEND}/ogg.lib ws2_32.lib )
-        #set(SFML_DEPEND_2 opengl32 winmm gdi32 )
     else()
         message("USING MINGW")
         if(DEBUG)
@@ -109,12 +107,12 @@ set(SOURCE_FILES
 
 set(YALEX_SOURCE_FILES 
     ${PROJECT_SOURCE_DIR}/src/yalex_globals.h
-    ${PROJECT_SOURCE_DIR}/yalex/yalex/src/yalex.c 
-    ${PROJECT_SOURCE_DIR}/yalex/yalex/src/yalex_interop.c 
-    ${PROJECT_SOURCE_DIR}/yalex/yalex/src/yalex_system.c
-    ${PROJECT_SOURCE_DIR}/yalex/yalex/src/yalex_parse.c
-    ${PROJECT_SOURCE_DIR}/yalex/yalex/src/yalex_tokens.c
-    ${PROJECT_SOURCE_DIR}/yalex/yalex/src/yalex_interpret.c )
+    ${PROJECT_SOURCE_DIR}/yalex/src/yalex.c 
+    ${PROJECT_SOURCE_DIR}/yalex/src/yalex_interop.c 
+    ${PROJECT_SOURCE_DIR}/yalex/src/yalex_system.c
+    ${PROJECT_SOURCE_DIR}/yalex/src/yalex_parse.c
+    ${PROJECT_SOURCE_DIR}/yalex/src/yalex_tokens.c
+    ${PROJECT_SOURCE_DIR}/yalex/src/yalex_interpret.c )
 
 if(LINUX)
     if(DEBUG)
@@ -129,8 +127,8 @@ if(LINUX)
     #set(MY_STATIC_LIBS ${PATH_LIBS}/libclip.a ${PATH_LIBS}/libfmt.a ${PATH_LIBS}/libgme.a ${PATH_SFML_LIB}/libsfml-network-s.a ${PATH_SFML_LIB}/libsfml-audio-s.a ${PATH_SFML_LIB}/libsfml-graphics-s.a ${PATH_SFML_LIB}/libsfml-window-s.a ${PATH_SFML_LIB}/libsfml-system-s.a)
     #target_link_libraries(emu-jukebox stdc++fs png ${MY_STATIC_LIBS} ${SFML_DEPENDENCIES} ${SFML_REST})
 
-    add_executable(emu-jukebox ${SOURCE_FILES} ${YALEX_SOURCE_FILES} ${GUI_SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} ${GME_SOURCE_FILES} )
-    target_link_libraries(emu-jukebox stdc++fs png ${MY_STATIC_LIBS} ${SFML_DEPENDENCIES} ${SFML_REST})
+    add_executable(yalexide ${SOURCE_FILES} ${YALEX_SOURCE_FILES} ${GUI_SOURCE_FILES} ${IMGUI_SOURCE_FILES} ${FMT_SOURCE_FILES} ${GME_SOURCE_FILES} )
+    target_link_libraries(yalexide ${MY_STATIC_LIBS} ${SFML_DEPENDENCIES} ${SFML_REST})
 elseif(WIN32)
     if(MSVC)
         set(PATH_LIBS ${PROJECT_SOURCE_DIR}/external_libs/libs/win)

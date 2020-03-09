@@ -55,11 +55,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 class Docking {
 public:
-    inline static const std::string Docking::YALEX_CONSOLE_PANEL = "Console";
-    inline static const std::string Docking::YALEX_INFO_PANEL = "Info";
-    inline static const std::string Docking::YALEX_SYSTEM_PANEL = "System";
-    inline static const std::string Docking::YALEX_STACK_PANEL = "Stack";
-    inline static const std::string Docking::YALEX_EDITOR = "YalexEditor";
+    inline static const std::string YALEX_CONSOLE_PANEL = "Console";
+    inline static const std::string YALEX_INFO_PANEL = "Info";
+    inline static const std::string YALEX_SYSTEM_PANEL = "System";
+    inline static const std::string YALEX_STACK_PANEL = "Stack";
+    inline static const std::string YALEX_EDITOR = "YalexEditor";
 public:
     void drawDock() {
         bool open = true;
@@ -130,7 +130,7 @@ public:
         window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-        ImGui::Begin(Docking::DOCK_ROOT_ID.c_str(), &open, window_flags);
+        ImGui::Begin(DOCK_ROOT_ID.c_str(), &open, window_flags);
         ImGui::PopStyleVar();
 
         ImGui::PopStyleVar(2);
@@ -138,14 +138,14 @@ public:
         createDock();
 
         ImGui::PushStyleColor(ImGuiCol_DockingEmptyBg, { 35, 65, 90, 255 });
-        ImGuiID dockspace_id = ImGui::GetID(Docking::DOCKSPACE_ID.c_str());
+        ImGuiID dockspace_id = ImGui::GetID(DOCKSPACE_ID.c_str());
         ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), 0);
         ImGui::PopStyleColor();
         ImGui::End();
     }
 private:
-    inline static const std::string Docking::DOCK_ROOT_ID = "YALEXIDE_ROOT";
-    inline static const std::string Docking::DOCKSPACE_ID = "YALEX_DOCKSPACE";
+    inline static const std::string DOCK_ROOT_ID = "YALEXIDE_ROOT";
+    inline static const std::string DOCKSPACE_ID = "YALEX_DOCKSPACE";
 };
 
 #endif 

@@ -57,11 +57,11 @@ int main() {
         style.WindowRounding = 0.0f;
         style.Colors[ImGuiCol_WindowBg].w = 1.0f;
     }
-    world.lambdas = 0;
-    world.stack = 0;
-    world.registers = 0;
-    configure.configure();
-    yalex_init(&world, replMessageCallback);
+ //   world.lambdas = 0;
+//    world.stack = 0;
+//    world.registers = 0;
+//    configure.configure();
+//    yalex_init(&world, replMessageCallback);
 
     std::vector<std::string> lines;
     lines.push_back(":fibstep (R1R R2R + R3S pop R2R R1S pop R3R R2S pop R4R 1 + R4S pop rec)");
@@ -71,7 +71,7 @@ int main() {
     lines.push_back("10 fib");
     editor.SetTextLines(lines);
     for (auto line : lines) {
-        yalex_repl(&world, line.c_str());
+//        yalex_repl(&world, line.c_str());
     }
 
     LOGINFO("Info");

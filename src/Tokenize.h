@@ -3,7 +3,7 @@
 
 class Tokenize {
 public:
-    static bool Tokenize::TokenizeYalexStyleString(const char * in_begin, const char * in_end, const char *& out_begin, const char *& out_end) {
+    static bool TokenizeYalexStyleString(const char * in_begin, const char * in_end, const char *& out_begin, const char *& out_end) {
         const char * p = in_begin;
 
         if (*p == '"') {
@@ -27,7 +27,7 @@ public:
 
         return false;
     }
-    static bool Tokenize::TokenizeYalexStyleIdentifier(const char * in_begin, const char * in_end, const char *& out_begin, const char *& out_end) {
+    static bool TokenizeYalexStyleIdentifier(const char * in_begin, const char * in_end, const char *& out_begin, const char *& out_end) {
         const char * p = in_begin;
 
         if (IsAlpha(p) || *p == '\'' || *p == '_') {
@@ -44,7 +44,7 @@ public:
         return false;
     }
 
-    static bool Tokenize::TokenizeYalexStyleLambdaDef(const char * in_begin, const char * in_end, const char *& out_begin, const char *& out_end) {
+    static bool TokenizeYalexStyleLambdaDef(const char * in_begin, const char * in_end, const char *& out_begin, const char *& out_end) {
         const char * p = in_begin;
 
         if (*p == ':') {
@@ -61,7 +61,7 @@ public:
         return false;
     }
 
-    static bool Tokenize::TokenizeYalexStyleLambdaDeferred(const char * in_begin, const char * in_end, const char *& out_begin, const char *& out_end) {
+    static bool TokenizeYalexStyleLambdaDeferred(const char * in_begin, const char * in_end, const char *& out_begin, const char *& out_end) {
         const char * p = in_begin;
 
         if (*p == '\'') {
@@ -78,7 +78,7 @@ public:
         return false;
     }
 
-    static bool Tokenize::TokenizeYalexStyleNumber(const char * in_begin, const char * in_end, const char *& out_begin, const char *& out_end) {
+    static bool TokenizeYalexStyleNumber(const char * in_begin, const char * in_end, const char *& out_begin, const char *& out_end) {
         const char * p = in_begin;
 
         const bool startsWithNumber = *p >= '0' && *p <= '9';
@@ -170,7 +170,7 @@ public:
         return true;
     }
 
-    static bool Tokenize::TokenizeYalexStylePunctuation(const char * in_begin, const char * in_end, const char *& out_begin, const char *& out_end) {
+    static bool TokenizeYalexStylePunctuation(const char * in_begin, const char * in_end, const char *& out_begin, const char *& out_end) {
         (void) in_end;
 
         switch (*in_begin) {
@@ -195,10 +195,10 @@ public:
     }
 
 private:
-    static bool Tokenize::IsAlpha(const char * p) {
+    static bool IsAlpha(const char * p) {
         return (*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z');
     }
-    static bool Tokenize::IsIdentifier(const char * p, const char * in_end) {
+    static bool IsIdentifier(const char * p, const char * in_end) {
         return (p < in_end) && ((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z') || (*p >= '0' && *p <= '9'));
     }
 

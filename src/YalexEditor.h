@@ -6,7 +6,7 @@
 
 #include "Tokenize.h"
 #include "YalexDefinition.h"
-#include "ImGuiColorTextEdit\TextEditor.h"
+#include "ImGuiColorTextEdit/TextEditor.h"
 
 #include "GUI.h"
 #include "YalexConsolePanel.h"
@@ -85,7 +85,7 @@ public:
                             ))) {
                         if (ImGui::Selectable(dirpath.path().generic_u8string().c_str(), &selected, ImGuiSelectableFlags_DontClosePopups)) {
                             if (!std::filesystem::is_directory(dirpath)) {
-                                std::ifstream filestream(dirpath, std::ios::in);
+                                std::ifstream filestream(dirpath.path());//, std::ios::in);
                                 std::string line;
                                 this->SetText("");
                                 while (std::getline(filestream, line)) {
