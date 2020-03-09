@@ -1,7 +1,7 @@
 [submodule "external_libs/include/ImGuiColorTextEdit"]
 	path = external_libs/include/ImGuiColorTextEdit
-	url = https://github.com/AlexanderBrevig/ImGuiColorTextEdit
-	branch = yalexide
+	url = https://github.com/BalazsJako/ImGuiColorTextEdit
+	branch = master
 [submodule "yalex"]
 	path = yalex
 	url = https://github.com/AlexanderBrevig/yalex
