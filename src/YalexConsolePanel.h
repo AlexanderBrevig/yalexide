@@ -8,6 +8,8 @@
 #include "yalex.h"
 #include "GUI.h"
 
+#include <iostream>
+
 #define LOGINFO(x) YalexConsolePanel::instance().info(x)
 #define LOGWARN(x) YalexConsolePanel::instance().warn(x)
 #define LOGERR(x) YalexConsolePanel::instance().err(x)
@@ -27,7 +29,7 @@ reversion_wrapper<T> reverse(T&& iterable) { return { iterable }; }
 class YalexConsolePanel : public YalexEditorComponent {
 private:
     YalexConsolePanel() : YalexEditorComponent(Docking::YALEX_CONSOLE_PANEL) {
-
+        std::cout << id << std::endl;
     }
 public:
     enum class LogType {
@@ -50,7 +52,8 @@ public:
     void warn(std::string msg) { messages.push_back({ LogType::WARNING,"LOG W> " + msg }); }
     void err(std::string msg) { messages.push_back({ LogType::ERROR,"LOG E> " + msg }); }
     void draw() override {
-        ImGui::Begin(id.c_str());
+        bool draw=true;
+        ImGui::Begin(id.c_str(), &draw);
         for (auto &[type, msg] : reverse(messages)) {
             switch (type) {
                 case LogType::YALEX:    ImGui::TextColored(ImVec4(1, 1, 1, 1), msg.c_str()); break;

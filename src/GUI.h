@@ -9,7 +9,7 @@
 
 class YalexEditorComponent {
 public:
-    YalexEditorComponent(std::string _id) : id(_id) {
+    YalexEditorComponent(const char  *_id) : id(_id) {
 
     }
 
@@ -55,11 +55,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 class Docking {
 public:
-    inline static const std::string YALEX_CONSOLE_PANEL = "Console";
-    inline static const std::string YALEX_INFO_PANEL = "Info";
-    inline static const std::string YALEX_SYSTEM_PANEL = "System";
-    inline static const std::string YALEX_STACK_PANEL = "Stack";
-    inline static const std::string YALEX_EDITOR = "YalexEditor";
+    static constexpr char YALEX_CONSOLE_PANEL[] = "Console";
+    static constexpr char YALEX_INFO_PANEL[] = "Info";
+    static constexpr char YALEX_SYSTEM_PANEL[] = "System";
+    static constexpr char YALEX_STACK_PANEL[] = "Stack";
+    static constexpr char YALEX_EDITOR[] = "YalexEditor";
 public:
     void drawDock() {
         bool open = true;
@@ -75,24 +75,23 @@ public:
         window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-        ImGui::Begin(Docking::DOCK_ROOT_ID.c_str(), &open, window_flags);
+        ImGui::Begin(DOCK_ROOT_ID, &open, window_flags);
         ImGui::PopStyleVar();
 
         ImGui::PopStyleVar(2);
 
-        if (ImGui::DockBuilderGetNode(ImGui::GetID(Docking::DOCKSPACE_ID.c_str())) == nullptr) {
+        ImGui::PushStyleColor(ImGuiCol_DockingEmptyBg, { 35, 65, 90, 255 });
+        if (ImGui::DockBuilderGetNode(ImGui::GetID(DOCKSPACE_ID)) == nullptr) {
             createDock();
         }
-
-        ImGui::PushStyleColor(ImGuiCol_DockingEmptyBg, { 35, 65, 90, 255 });
-        ImGuiID dockspace_id = ImGui::GetID(DOCKSPACE_ID.c_str());
+        ImGuiID dockspace_id = ImGui::GetID(DOCKSPACE_ID);
         ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), 0);
         ImGui::PopStyleColor();
         ImGui::End();
     }
 
     void createDock() {
-        ImGuiID dockspace_id = ImGui::GetID(Docking::DOCKSPACE_ID.c_str());
+        ImGuiID dockspace_id = ImGui::GetID(DOCKSPACE_ID);
         ImGuiViewport* viewport = ImGui::GetMainViewport();
 
         ImGui::DockBuilderRemoveNode(dockspace_id); // Clear out existing layout
@@ -107,11 +106,11 @@ public:
         ImGuiID dock_id_right = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Right, 0.20f, nullptr, &dock_main_id);
         ImGuiID dock_id_bottom = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.20f, nullptr, &dock_main_id);
 
-        ImGui::DockBuilderDockWindow(YALEX_SYSTEM_PANEL.c_str(), system_id);
-        ImGui::DockBuilderDockWindow(YALEX_INFO_PANEL.c_str(), info_id);
-        ImGui::DockBuilderDockWindow(YALEX_EDITOR.c_str(), dock_main_id);
-        ImGui::DockBuilderDockWindow(YALEX_STACK_PANEL.c_str(), dock_id_right);
-        ImGui::DockBuilderDockWindow(YALEX_CONSOLE_PANEL.c_str(), dock_id_bottom);
+        ImGui::DockBuilderDockWindow(YALEX_SYSTEM_PANEL, system_id);
+        ImGui::DockBuilderDockWindow(YALEX_INFO_PANEL, info_id);
+        ImGui::DockBuilderDockWindow(YALEX_EDITOR, dock_main_id);
+        ImGui::DockBuilderDockWindow(YALEX_STACK_PANEL, dock_id_right);
+        ImGui::DockBuilderDockWindow(YALEX_CONSOLE_PANEL, dock_id_bottom);
         ImGui::DockBuilderFinish(dockspace_id);
     }
 
@@ -130,7 +129,7 @@ public:
         window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-        ImGui::Begin(DOCK_ROOT_ID.c_str(), &open, window_flags);
+        ImGui::Begin(DOCK_ROOT_ID, &open, window_flags);
         ImGui::PopStyleVar();
 
         ImGui::PopStyleVar(2);
@@ -138,14 +137,14 @@ public:
         createDock();
 
         ImGui::PushStyleColor(ImGuiCol_DockingEmptyBg, { 35, 65, 90, 255 });
-        ImGuiID dockspace_id = ImGui::GetID(DOCKSPACE_ID.c_str());
+        ImGuiID dockspace_id = ImGui::GetID(DOCKSPACE_ID);
         ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), 0);
         ImGui::PopStyleColor();
         ImGui::End();
     }
 private:
-    inline static const std::string DOCK_ROOT_ID = "YALEXIDE_ROOT";
-    inline static const std::string DOCKSPACE_ID = "YALEX_DOCKSPACE";
+    static constexpr char DOCK_ROOT_ID[] = "YALEXIDE_ROOT";
+    static constexpr char DOCKSPACE_ID[] = "YALEX_DOCKSPACE";
 };
 
 #endif 

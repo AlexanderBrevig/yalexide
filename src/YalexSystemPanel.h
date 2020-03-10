@@ -21,8 +21,10 @@ public:
         previousConfig.registerCount = YALEX_SIZE_REGISTERS;
         previousConfig.sysLambdasStack = YALEX_SIZE_SYS_LAMBDAS_STACK;
         previousConfig.tokens = YALEX_SIZE_TOKENS;
+        previousConfig.userTokens = 20; //YALEX_SIZE_USER_TOKENS;
     }
     void configure() {
+        userTokens = 64; // init to 64, better than whatever
         /// DELETE STACK
         if (world.stack) {
             for (size_t i = 0; i < previousConfig.stackSize; i++) {

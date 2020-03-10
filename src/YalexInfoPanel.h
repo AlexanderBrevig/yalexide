@@ -11,12 +11,12 @@
 class YalexInfoPanel : public YalexEditorComponent {
 public:
     YalexInfoPanel(yalex_world &_world) : YalexEditorComponent(Docking::YALEX_INFO_PANEL), world(_world) {
-
     }
     void draw() override {
-        ImGui::Begin(id.c_str());
+        bool draw=true;
+        ImGui::Begin(Docking::YALEX_INFO_PANEL, &draw);
         ImGui::Text("REGISTERS (%d):", YALEX_SIZE_REGISTERS);
-        for (size_t i = 0; i < YALEX_SIZE_REGISTERS; i++) {
+        for (size_t i = 0; i < world.spMax; i++) {
             ImGui::Text("%02d:\t%d", i, world.registers[i]);
         }
         ImGui::Separator();

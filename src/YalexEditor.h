@@ -15,7 +15,7 @@
 
 class YalexEditor : public TextEditor, public YalexEditorComponent {
 public:
-    YalexEditor(yalex_world &_world) : YalexEditorComponent(Docking::YALEX_EDITOR), world(_world) {
+    YalexEditor(yalex_world &_world) : TextEditor(), YalexEditorComponent(Docking::YALEX_EDITOR), world(_world) {
         SetLanguageDefinition(YalexDefinition::YalexLanguage());
         isDirty = this->IsTextChanged();
         currentPath = std::filesystem::current_path();
@@ -24,9 +24,11 @@ public:
         canDoShortcuts = true;
     }
     void draw() override {
+        
+        bool showDock = true;
         if (this->IsTextChanged()) isDirty = true;
 
-        ImGui::Begin(id.c_str());
+        ImGui::Begin(id.c_str(),&showDock);
         ImGui::BeginChild("action_panel", { -1, 35 }, true, 0);
         ImGui::SameLine();
         bool ctrl = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::RControl);

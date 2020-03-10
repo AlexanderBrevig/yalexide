@@ -1,7 +1,9 @@
+imgui.ini
 yalexide
 yalexide_config.h
 yalexide.dir
 
+tags
 # Prerequisites
 *.d
 

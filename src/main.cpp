@@ -23,11 +23,6 @@
 
 yalex_world world;
 
-Docking dock;
-YalexEditor editor(world);
-YalexStackPanel stack(world);
-YalexInfoPanel info(world);
-YalexSystemPanel configure(world);
 
 void replMessageCallback(const char* ptr) { 
     YalexConsolePanel::instance().yalex(ptr);
@@ -41,6 +36,8 @@ int main() {
     window.setVerticalSyncEnabled(true);
     window.resetGLStates(); // call it if you only process ImGui. Otherwise not needed.
 
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
     ImGui::SFML::Init(window);
 
     auto io = &ImGui::GetIO();
@@ -57,11 +54,19 @@ int main() {
         style.WindowRounding = 0.0f;
         style.Colors[ImGuiCol_WindowBg].w = 1.0f;
     }
- //   world.lambdas = 0;
-//    world.stack = 0;
-//    world.registers = 0;
-//    configure.configure();
-//    yalex_init(&world, replMessageCallback);
+    world.lambdas = 0;
+    world.stack = 0;
+    world.registers = 0;
+
+	Docking dock;
+	YalexEditor editor(world);
+	YalexStackPanel stack(world);
+	YalexInfoPanel info(world);
+	YalexSystemPanel configure(world);
+
+    configure.configure();
+
+    yalex_init(&world, replMessageCallback);
 
     std::vector<std::string> lines;
     lines.push_back(":fibstep (R1R R2R + R3S pop R2R R1S pop R3R R2S pop R4R 1 + R4S pop rec)");
@@ -69,7 +74,7 @@ int main() {
     lines.push_back(":start (R0R 1 - R0S pop rec pop pop pop pop pop pop R3R)");
     lines.push_back(":fib (R0S 0 R1S 1 R2S 0 R3S 1 R4S R0R 3 < 1 'start select)");
     lines.push_back("10 fib");
-    editor.SetTextLines(lines);
+    //editor.SetTextLines(lines);
     for (auto line : lines) {
 //        yalex_repl(&world, line.c_str());
     }
@@ -79,6 +84,7 @@ int main() {
     LOGERR("Error");
 
     sf::Clock deltaClock;
+    bool isOpen = true;
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -94,16 +100,13 @@ int main() {
 
         ImGui::SFML::Update(window, deltaClock.restart());
 
-        //ImGui::ShowTestWindow();
         dock.drawDock();
         editor.draw();
         configure.draw();
         info.draw();
         stack.draw();
         YalexConsolePanel::instance().draw();
-
         window.clear();
-        //window.draw(shape);
         ImGui::SFML::Render(window);
         window.display();
     }
