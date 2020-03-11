@@ -10,9 +10,12 @@
 #include "yalex_system.h"
 #include "GUI.h"
 
+#include <iostream>
+using namespace std;
+
 class YalexSystemPanel : public YalexEditorComponent {
 public:
-    YalexSystemPanel(yalex_world &_world) : YalexEditorComponent(Docking::YALEX_SYSTEM_PANEL), world(_world) {
+    YalexSystemPanel(yalex_world *_world) : YalexEditorComponent(Docking::YALEX_SYSTEM_PANEL), world(_world) {
         previousConfig.stackSize = YALEX_SIZE_STACK;
         previousConfig.tokenStrSize = YALEX_SIZE_TOKEN_STR;
         previousConfig.maxDependableStack = YALEX_SIZE_MAX_DEPENDABLE_STACK;
@@ -26,58 +29,61 @@ public:
     void configure() {
         userTokens = 64; // init to 64, better than whatever
         /// DELETE STACK
-        if (world.stack) {
+        if (world->stack) {
+            cout << "Deleting previous stack" << endl;
             for (size_t i = 0; i < previousConfig.stackSize; i++) {
-                YALEX_FREE(world.stack[i].data.text);
+                YALEX_FREE(world->stack[i].data.text);
             }
-            YALEX_FREE(world.stack);
-            world.stack = 0;
+            YALEX_FREE(world->stack);
+            world->stack = 0;
         }
 
+        cout << "Making new stack and prepare it" << endl;
         /// MAKE STACK
-        world.stack = (stack_item*) YALEX_MALLOC(sizeof(stack_item) * YALEX_SIZE_STACK);
+        world->stack = (stack_item*) YALEX_MALLOC(sizeof(stack_item) * YALEX_SIZE_STACK);
 
         /// PREPARE STACK
         for (size_t i = 0; i < YALEX_SIZE_STACK; i++) {
-            world.stack[i].data.number = 0;
-            world.stack[i].data.text = (char *) YALEX_MALLOC(YALEX_SIZE_TOKEN_STR);
-            world.stack[i].data.text[0] = 0;
-            world.stack[i].meta = YALEX_TOKEN_UNDEFINED;
+            world->stack[i].data.number = 0;
+            world->stack[i].data.text = (char *) YALEX_MALLOC(YALEX_SIZE_TOKEN_STR);
+            world->stack[i].data.text[0] = 0;
+            world->stack[i].meta = YALEX_TOKEN_UNDEFINED;
         }
+        cout << "Accessing stack 2 meta get " << world->stack[2].meta << endl;
 
         /// DELETE LAMBDAS
-        if (world.lambdas) {
+        if (world->lambdas) {
             for (size_t i = 0; i < previousConfig.lambdasStack; i++) {
-                YALEX_FREE(world.lambdas[i].name);
-                YALEX_FREE(world.lambdas[i].requirements);
-                YALEX_FREE(world.lambdas[i].stack);
+                YALEX_FREE(world->lambdas[i].name);
+                YALEX_FREE(world->lambdas[i].requirements);
+                YALEX_FREE(world->lambdas[i].stack);
             }
-            YALEX_FREE(world.lambdas);
-            world.lambdas = 0;
+            YALEX_FREE(world->lambdas);
+            world->lambdas = 0;
         }
 
         /// MAKE LAMBDAS
-        world.lambdas = (lambda*) YALEX_MALLOC(sizeof(lambda) * YALEX_SIZE_LAMBDAS_STACK);
+        world->lambdas = (lambda*) YALEX_MALLOC(sizeof(lambda) * YALEX_SIZE_LAMBDAS_STACK);
 
         /// PREPARE LAMBDAS
         for (size_t i = 0; i < YALEX_SIZE_LAMBDAS_STACK; i++) {
-            world.lambdas[i].requirementCount = 0;
-            world.lambdas[i].name = (char*) YALEX_MALLOC(YALEX_SIZE_TOKEN_STR);
-            world.lambdas[i].name[0] = 0;
-            world.lambdas[i].requirements = (char*) YALEX_MALLOC(YALEX_SIZE_MAX_DEPENDABLE_STACK);
-            world.lambdas[i].requirements[0] = 0;
-            world.lambdas[i].stack = (char*) YALEX_MALLOC(YALEX_SIZE_LAMBDA_STACK_STR);
-            world.lambdas[i].stack[0] = 0;
+            world->lambdas[i].requirementCount = 0;
+            world->lambdas[i].name = (char*) YALEX_MALLOC(YALEX_SIZE_TOKEN_STR);
+            world->lambdas[i].name[0] = 0;
+            world->lambdas[i].requirements = (char*) YALEX_MALLOC(YALEX_SIZE_MAX_DEPENDABLE_STACK);
+            world->lambdas[i].requirements[0] = 0;
+            world->lambdas[i].stack = (char*) YALEX_MALLOC(YALEX_SIZE_LAMBDA_STACK_STR);
+            world->lambdas[i].stack[0] = 0;
         }
 
         /// DELETE REGISTERS
-        if (world.registers) {
-            YALEX_FREE(world.registers);
+        if (world->registers) {
+            YALEX_FREE(world->registers);
         }
         /// MAKE REGISTERS
-        world.registers = new numeric_type[YALEX_SIZE_REGISTERS];
+        world->registers = new numeric_type[YALEX_SIZE_REGISTERS];
         for (size_t i = 0; i < YALEX_SIZE_REGISTERS; i++) {
-            world.registers[i] = 0;
+            world->registers[i] = 0;
         }
 
         /// DELETE SYS LAMBDAS
@@ -183,7 +189,7 @@ private:
             ImGui::EndTooltip();
         }
     }
-    yalex_world &world;
+    yalex_world *world;
     int userTokens;
     typedef struct _yalex_config {
         int stackSize;

@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(PROJECT_VERSION_MAJOR 0)
 set(PROJECT_VERSION_MINOR 6)
 set(PROJECT_VERSION_PATCH 0)
+set(CMAKE_C_FLAGS "-DYALEX_DO_NOT_RESERVE_MEMORY")
 set(CMAKE_CXX_FLAGS "-DSFML_STATIC -DYALEX_DO_NOT_RESERVE_MEMORY")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DSFML_STATIC -DYALEX_DEBUG -DYALEX_DO_NOT_RESERVE_MEMORY")
 
@@ -57,7 +58,7 @@ configure_file (
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/src/
-    ${PROJECT_SOURCE_DIR}/yalex/src/ 
+    ${PROJECT_SOURCE_DIR}/yalex/src/
     ${PROJECT_SOURCE_DIR}/external_libs/include/)
 
 if(LINUX)
@@ -92,7 +93,7 @@ elseif(APPLE)
     set(SFML_DEPENDENCIES ${PATH_SFML_DEPEND}/FLAC.framework ${PATH_SFML_DEPEND}/freetype.framework ${PATH_SFML_DEPEND}/ogg.framework ${PATH_SFML_DEPEND}/OpenAL.framework ${PATH_SFML_DEPEND}/vorbis.framework ${PATH_SFML_DEPEND}/vorbisenc.framework ${PATH_SFML_DEPEND}/vorbisfile.framework)
 endif()
 
-set(FMT_SOURCE_FILES ${PROJECT_SOURCE_DIR}/external_libs/source/fmt/format.cc ${PROJECT_SOURCE_DIR}/external_libs/source/fmt/posix.cc)  
+set(FMT_SOURCE_FILES ${PROJECT_SOURCE_DIR}/external_libs/source/fmt/format.cc ${PROJECT_SOURCE_DIR}/external_libs/source/fmt/posix.cc)
 
 set(IMGUI_SOURCE_FILES ${PROJECT_SOURCE_DIR}/external_libs/include/imgui/imgui.cpp ${PROJECT_SOURCE_DIR}/external_libs/include/imgui/imconfig.h
         ${PROJECT_SOURCE_DIR}/external_libs/include/imgui/imgui_draw.cpp ${PROJECT_SOURCE_DIR}/external_libs/include/imgui/imgui_widgets.cpp
@@ -101,14 +102,14 @@ set(IMGUI_SOURCE_FILES ${PROJECT_SOURCE_DIR}/external_libs/include/imgui/imgui.c
 
 set(GUI_SOURCE_FILES ${PROJECT_SOURCE_DIR}/external_libs/include/ImGuiColorTextEdit/TextEditor.cpp ${PROJECT_SOURCE_DIR}/external_libs/include/ImGuiColorTextEdit/TextEditor.h)
 
-set(SOURCE_FILES 
+set(SOURCE_FILES
     ${PROJECT_SOURCE_DIR}/src/main.cpp
     ${PROJECT_SOURCE_DIR}/src/yalex_globals.cpp)
 
-set(YALEX_SOURCE_FILES 
+set(YALEX_SOURCE_FILES
     ${PROJECT_SOURCE_DIR}/src/yalex_globals.h
-    ${PROJECT_SOURCE_DIR}/yalex/src/yalex.c 
-    ${PROJECT_SOURCE_DIR}/yalex/src/yalex_interop.c 
+    ${PROJECT_SOURCE_DIR}/yalex/src/yalex.c
+    ${PROJECT_SOURCE_DIR}/yalex/src/yalex_interop.c
     ${PROJECT_SOURCE_DIR}/yalex/src/yalex_system.c
     ${PROJECT_SOURCE_DIR}/yalex/src/yalex_parse.c
     ${PROJECT_SOURCE_DIR}/yalex/src/yalex_tokens.c

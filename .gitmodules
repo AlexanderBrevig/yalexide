@@ -5,3 +5,4 @@
 [submodule "yalex"]
 	path = yalex
 	url = https://github.com/AlexanderBrevig/yalex
+	ignore = all

@@ -15,7 +15,7 @@
 
 class YalexEditor : public TextEditor, public YalexEditorComponent {
 public:
-    YalexEditor(yalex_world &_world) : TextEditor(), YalexEditorComponent(Docking::YALEX_EDITOR), world(_world) {
+    YalexEditor(yalex_world *_world) : TextEditor(), YalexEditorComponent(Docking::YALEX_EDITOR), world(_world) {
         SetLanguageDefinition(YalexDefinition::YalexLanguage());
         isDirty = this->IsTextChanged();
         currentPath = std::filesystem::current_path();
@@ -24,7 +24,6 @@ public:
         canDoShortcuts = true;
     }
     void draw() override {
-        
         bool showDock = true;
         if (this->IsTextChanged()) isDirty = true;
 
@@ -39,7 +38,7 @@ public:
         bool runLineHotkey = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L);
         bool resetHotkey = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::C);
         auto hotkey = [&ctrl, this](bool btn) {
-            bool doShortkey = ctrl && btn; 
+            bool doShortkey = ctrl && btn;
             if (canDoShortcuts && doShortkey) {
                 canDoShortcuts = false;
                 return true;
@@ -51,7 +50,7 @@ public:
                 //TODO: ask for save
                 //YalexConsolePanel::print("must save, file is dirty");
             }
-            filePath = "";  
+            filePath = "";
             this->SetText("");
         }
         ImGui::SameLine();
@@ -69,7 +68,7 @@ public:
                 currentPath = std::string(inputPathBuffer);
             }
             ImGui::Separator();
-            
+
             ImGui::BeginChild("listing", ImVec2(1200, 700), true);
             if (std::filesystem::is_directory(currentPath)) {
                 bool selected = false;
@@ -78,7 +77,7 @@ public:
                 }
                 for (auto& dirpath : std::filesystem::directory_iterator(currentPath)) {
                     if ((std::filesystem::is_directory(dirpath) && dirpath.path().stem().string().at(0) != '.')
-                        || 
+                        ||
                         (dirpath.path().has_extension()
                             && (
                                 dirpath.path().extension().string().compare(".yal") == 0
@@ -115,7 +114,7 @@ public:
             LOGINFO("Running file");
             std::vector<std::string> lines = this->GetTextLines();
             for (auto line : lines) {
-                yalex_repl(&world, line.c_str());
+                yalex_repl(world, line.c_str());
             }
         }
         ImGui::SameLine();
@@ -123,11 +122,11 @@ public:
 
             std::string code = this->GetCurrentLineText();
             LOGINFO("Running line '" + code + "'");
-            yalex_repl(&world, code.c_str());
+            yalex_repl(world, code.c_str());
         }
         ImGui::SameLine();
         if (ImGui::Button("[C] Reset yalex") || hotkey(runHotkey)) {
-            yalex_init(&world, world.onResultCallback);
+            yalex_init(world, world->onResultCallback);
         }
         ImGui::EndChild();
 
@@ -141,7 +140,7 @@ public:
 private:
     std::filesystem::path filePath;
     bool isDirty;
-    yalex_world &world;
+    yalex_world *world;
     bool fileSelectOpen;
     std::filesystem::path currentPath;
     char inputPathBuffer[256];
