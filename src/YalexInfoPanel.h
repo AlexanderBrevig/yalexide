@@ -5,7 +5,10 @@
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
 
+extern "C" {
+#define YALEX_DEBUG
 #include "yalex.h"
+}
 #include "GUI.h"
 
 class YalexInfoPanel : public YalexEditorComponent {

@@ -11,7 +11,10 @@
 #include "GUI.h"
 #include "YalexConsolePanel.h"
 
+extern "C" {
+#define YALEX_DEBUG
 #include "yalex.h"
+}
 
 class YalexEditor : public TextEditor, public YalexEditorComponent {
 public:

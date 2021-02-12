@@ -5,8 +5,11 @@
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
 
-#include "yalex_globals.h"
+extern "C" {
+#define YALEX_DEBUG
 #include "yalex.h"
+}
+#include "yalex_globals.h"
 #include "yalex_system.h"
 #include "GUI.h"
 

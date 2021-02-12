@@ -13,7 +13,10 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
 
+extern "C" {
+#define YALEX_DEBUG
 #include "yalex.h"
+}
 
 #include "YalexEditor.h"
 #include "YalexStackPanel.h"

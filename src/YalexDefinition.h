@@ -2,7 +2,10 @@
 #define YALEXIDE_YALEX_DEF_H
 
 #include "ImGuiColorTextEdit/TextEditor.h"
+extern "C" {
+#define YALEX_DEBUG
 #include "yalex.h"
+}
 
 class YalexDefinition {
 public:
